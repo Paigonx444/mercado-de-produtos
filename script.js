@@ -1,30 +1,37 @@
-const produtos = [5, 3.50, 4.80, 8.90, 7.32];
+const aumento = [0.2, 0.15, 0.1, 0.05]
 
-const button = document.querySelector("button")
-const inputCodigo = document.getElementById("codigo")
-const input_quantidade = document.getElementById("quantidade")
+const salario = document.getElementById("salario")
+const botao = document.querySelector('button')
 
-const paragrafoResultado = document.getElementById("resultado")
+let salarioNovoP = document.getElementById("novo-salario");
+let aumentoP = document.getElementById("aumento");
+let porcentagemP = document.getElementById("porcentagem");
 
-button.addEventListener("click", calcularValor)
+botao.addEventListener("click", calcular)
 
-function calcularValor() {
-    // pegar o valor da input, verificar se algum valor digitado e calcular a fatura
+function calcular() {
+    
+    const salarioN = Number(salario.value)
 
-    if ( inputCodigo.value === "" ||  inputCodigo.value > 5 || inputCodigo.value < 1 || input_quantidade.value === "") {
-        alert("Digite um valor válido!")
-        return
+    let porcentagem
+    if (salarioN <= 1000.00) {
+        porcentagem = aumento[0]
+    }
+    else if (salarioN <= 3000.00) {
+        porcentagem = aumento[1]
+    }
+    else if (salarioN <= 8000.00) {
+        porcentagem = aumento[2]
     }
     else {
-        const codigo = inputCodigo.value - 1
-        const quantidadeComprada = input_quantidade.value
-        const valorPagar = produtos[codigo] * quantidadeComprada
-        const valorPagarConvertido = valorPagar.toLocaleString("pt-BR", {style: "currency", currency: "BRL" })
-        paragrafoResultado.textContent = `
-        Valor a ser pago = ${valorPagarConvertido}
-        `
+        porcentagem = aumento[3]
     }
 
-    inputCodigo.value = ""
-    input_quantidade.value = ""
+    let porcentagemCorreta = porcentagem * 100
+    let diferenca_aumento = salarioN * porcentagem
+    let salarioNovo = salarioN + diferenca_aumento
+
+    salarioNovoP.innerText = `Novo Salario = ${salarioNovo.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`
+    aumentoP.innerText = `Aumento = ${diferenca_aumento.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`
+    porcentagemP.innerText = `Porcentagem = ${porcentagemCorreta}%`
 }
